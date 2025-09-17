@@ -18,16 +18,12 @@ public class GamesController {
         this.gamesService = gamesService;
     }
 
-    // Endpoint to add a new game to the store
-    // POST http://localhost:8080/api/games
     @PostMapping
     public ResponseEntity<Games> addGame(@RequestBody Games game) {
         Games newGame = gamesService.addGame(game);
         return new ResponseEntity<>(newGame, HttpStatus.CREATED);
     }
 
-    // Endpoint to get all available games
-    // GET http://localhost:8080/api/games
     @GetMapping
     public ResponseEntity<List<Games>> getAllGames() {
         List<Games> games = gamesService.getAllGames();

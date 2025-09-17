@@ -19,7 +19,6 @@ public class RechargesController {
         this.rechargesService = rechargesService;
     }
 
-    // POST http://localhost:8080/api/recharges
     @PostMapping
     public ResponseEntity<Recharges> rechargeAccount(@RequestBody RechargeRequest rechargeRequest) {
         Recharges recharge = rechargesService.performRecharge(rechargeRequest);
