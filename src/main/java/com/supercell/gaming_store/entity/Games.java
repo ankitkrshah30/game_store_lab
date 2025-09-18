@@ -20,8 +20,8 @@ public class Games {
     private String name;
     private double price;
     private String description;
-    private int minplayer;
-    private int maxplayer;
-    private int multipleof;
+    private int minPlayer;
+    private int maxPlayer;
+    private int multipleOf;
     private int duration;
 }

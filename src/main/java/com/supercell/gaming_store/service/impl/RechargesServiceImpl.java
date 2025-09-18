@@ -7,10 +7,14 @@ import com.supercell.gaming_store.exception.ResourceNotFoundException;
 import com.supercell.gaming_store.repository.MembersRepository;
 import com.supercell.gaming_store.repository.RechargesRepository;
 import com.supercell.gaming_store.service.interfaces.RechargesService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 @Service
+@Slf4j
 public class RechargesServiceImpl implements RechargesService {
     private final MembersRepository membersRepository;
     private final RechargesRepository rechargesRepository;
@@ -28,11 +32,19 @@ public class RechargesServiceImpl implements RechargesService {
         Members member = membersRepository.findById(memberId)
                 .orElseThrow(()->new ResourceNotFoundException("Member not found with id: " + memberId));
         member.setBalance(member.getBalance()+amount);
-        membersRepository.save(member);
         Recharges recharge=new Recharges();
         recharge.setMemberId(member);
         recharge.setAmount(amount);
-
-        return rechargesRepository.save(recharge);
+        Recharges savedRecharge=rechargesRepository.save(recharge);
+        if(member.getRecharges()!=null){
+            member.getRecharges().add(savedRecharge);
+        }
+        else{
+            member.setRecharges(new ArrayList<>());
+            member.getRecharges().add(savedRecharge);
+        }
+        membersRepository.save(member);
+        log.info("Recharge successful for recharge: {}", recharge);
+        return savedRecharge;
     }
 }

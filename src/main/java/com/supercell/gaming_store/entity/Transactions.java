@@ -1,5 +1,6 @@
 package com.supercell.gaming_store.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Transactions {
     @DBRef
     private Members memberId;
 
+    @JsonIdentityReference(alwaysAsId = true)
     @DBRef
     private Games game;
     private double amount;

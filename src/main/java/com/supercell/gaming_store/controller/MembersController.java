@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/members")
@@ -20,9 +22,24 @@ public class MembersController {
     }
 
     @PostMapping
-    public ResponseEntity<Members> createMember(@RequestBody MembersRequest membersRequest) {
-        Members createdMember = membersService.createMember(membersRequest);
-        return new ResponseEntity<>(createdMember, HttpStatus.CREATED);
+    public ResponseEntity<?> createMember(@RequestBody MembersRequest membersRequest) {
+        try{
+            Members createdMember = membersService.createMember(membersRequest);
+            Map<String, Object> body = new HashMap<>();
+            body.put("message", "Created the user successfully");
+            body.put("member", createdMember);
+            return new ResponseEntity<>(
+                    body,
+                    HttpStatus.CREATED
+            );
+        } catch (Exception e) {
+            Map<String, Object> body = new HashMap<>();
+            body.put("message",e.getMessage());
+            return new ResponseEntity<>(
+                    body,
+                    HttpStatus.BAD_REQUEST
+            );
+        }
     }
 
 
@@ -34,9 +51,8 @@ public class MembersController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Members> getMemberById(@PathVariable String id) {
-        Members member = membersService.getMemberById(id);
-        return ResponseEntity.ok(member);
+    public ResponseEntity<?> getMemberById(@PathVariable String id) {
+        return membersService.getMemberById(id);
     }
 }
 

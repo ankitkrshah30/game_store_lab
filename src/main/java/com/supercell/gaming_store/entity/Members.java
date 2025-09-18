@@ -1,8 +1,11 @@
 package com.supercell.gaming_store.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -16,6 +19,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Members {
 
     @Id
@@ -28,6 +32,7 @@ public class Members {
 
     @CreatedDate
     private LocalDateTime joiningDate= LocalDateTime.now();
+
 
     @DBRef
     private List<Transactions> transactions;
