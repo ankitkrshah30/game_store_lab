@@ -24,4 +24,5 @@ public class Games {
     private int maxPlayer;
     private int multipleOf;
     private int duration;
+    private String gifURL;
 }
