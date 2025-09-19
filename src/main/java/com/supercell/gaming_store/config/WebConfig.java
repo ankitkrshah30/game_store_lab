@@ -1,3 +1,4 @@
+/*
 package com.supercell.gaming_store.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -25,3 +26,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/GIF_Assets/");
     }
 }
+*/
