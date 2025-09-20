@@ -4,6 +4,7 @@ import com.supercell.gaming_store.entity.Games;
 import com.supercell.gaming_store.service.interfaces.GamesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class GamesController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Games> addGame(@RequestBody Games game) {
         Games newGame = gamesService.addGame(game);
         return new ResponseEntity<>(newGame, HttpStatus.CREATED);

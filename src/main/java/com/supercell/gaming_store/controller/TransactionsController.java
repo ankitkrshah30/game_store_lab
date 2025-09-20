@@ -4,6 +4,8 @@ import com.supercell.gaming_store.dto.PurchaseRequest;
 import com.supercell.gaming_store.entity.Transactions;
 import com.supercell.gaming_store.service.interfaces.TransactionsService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,13 @@ public class TransactionsController {
 
     @PostMapping("/purchase")
     public ResponseEntity<Transactions> purchaseGame(@RequestBody PurchaseRequest purchaseRequest) {
+        // Get authenticated user's ID
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String authenticatedMemberId = (String) authentication.getPrincipal();
+        
+        // Set the member ID from authentication context to ensure security
+        purchaseRequest.setMemberId(authenticatedMemberId);
+        
         Transactions transaction = transactionsService.purchaseGame(purchaseRequest);
         return ResponseEntity.ok(transaction);
     }

@@ -1,7 +1,9 @@
 package com.supercell.gaming_store.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.supercell.gaming_store.pojo.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Document(collection = "members")
 @Data
@@ -28,11 +31,16 @@ public class Members {
 
     @Indexed(unique = true)
     private String phoneNumber;
+    
+    @JsonIgnore
+    private String password;
+    
     private double balance;
+    
+    private Set<Role> roles;
 
     @CreatedDate
-    private LocalDateTime joiningDate= LocalDateTime.now();
-
+    private LocalDateTime joiningDate = LocalDateTime.now();
 
     @DBRef
     private List<Transactions> transactions;
